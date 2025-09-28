@@ -21,10 +21,15 @@ export function useTasks(initial: Task[]) {
   }, []);
 
   const filteredTasks = useMemo(() => {
-    // return tasks.filter((user) =>
-    //   user.name.toLowerCase().includes(filter.toLowerCase())
-    // );
-    return tasks as Task[];
+    switch (filter) {
+      case TaskFilterType.COMPLETED:
+        return tasks.filter((task) => task.completed);
+      case TaskFilterType.INCOMPLETED:
+        return tasks.filter((task) => !task.completed);
+      case TaskFilterType.ALL:
+      default:
+        return tasks;
+    }
   }, [tasks, filter]);
 
   return {
