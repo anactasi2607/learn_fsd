@@ -3,18 +3,24 @@ import { Task } from "../model/types";
 
 import styles from "./TaskCard.module.css";
 
-type Props = Task;
+type Props = {
+  task: Task;
+  onClick: (id: string) => void;
+};
 
-export default function TaskCard({ title, completed }: Props) {
+export default function TaskCard({ task, onClick }: Props) {
   return (
     <div className={styles.root}>
       <input
         className={styles.checkbox}
         type="checkbox"
-        checked={completed}
+        checked={task.completed}
         disabled
       />
-      <span>{title}</span>
+      <span>{task.title}</span>
+      <button className={styles.button} onClick={() => onClick(task.id)}>
+        удалить
+      </button>
     </div>
   );
 }
