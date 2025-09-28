@@ -1,10 +1,10 @@
+import classNames from "classnames";
 import React from "react";
-import { TaskFilterType, useTasks } from "../model/useTasks";
 import { Task } from "entities/task/model/types";
 import TaskCard from "entities/task/ui/TaskCard";
+import { TaskFilterType, useTasks } from "../model/useTasks";
 
 import styles from "./TaskList.module.css";
-import classNames from "classnames";
 
 const initialTasks: Task[] = [
   { id: "1", title: "Купить хлеб", completed: true },
@@ -59,11 +59,13 @@ export default function TaskList() {
         </li>
       </ul>
       <ul className={styles.tasks}>
-        {tasks.map((task) => (
-          <li>
-            <TaskCard key={task.id} task={task} onClick={deleteTask} />
-          </li>
-        ))}
+        {tasks.length > 0 &&
+          tasks.map((task) => (
+            <li>
+              <TaskCard key={task.id} task={task} onClick={deleteTask} />
+            </li>
+          ))}
+        {tasks.length === 0 && <h2>Список задач пока пуст</h2>}
       </ul>
     </>
   );

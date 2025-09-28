@@ -1,5 +1,5 @@
-import { Task } from "entities/task/model/types";
 import { useCallback, useMemo, useState } from "react";
+import { Task } from "entities/task/model/types";
 
 export enum TaskFilterType {
   ALL = "all",

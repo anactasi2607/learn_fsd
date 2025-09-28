@@ -1,13 +1,13 @@
-import TaskList from "widgets/taskList/ui/TaskList";
-
-import styles from "./App.module.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import TaskPage from "pages/tasks/ui/TaskPage";
 
 function App() {
   return (
-    <>
-      <h1 className={styles.title}>Мои задачи</h1>
-      <TaskList />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<TaskPage />} />
+      </Routes>
+    </Router>
   );
 }
 
