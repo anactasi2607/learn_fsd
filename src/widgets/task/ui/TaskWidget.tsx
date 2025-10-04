@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import React from "react";
+import { TaskFilterType, useTasks } from "features/taskList/model/useTasks";
+import TaskList from "features/taskList/ui/TaskList";
 import { Task } from "entities/task/model/types";
-import TaskCard from "entities/task/ui/TaskCard";
-import { TaskFilterType, useTasks } from "../model/useTasks";
 
-import styles from "./TaskList.module.css";
+import styles from "./TaskWidget.module.css";
 
 const INITIAL_TASK: Task[] = [
   { id: "1", title: "Купить хлеб", completed: true },
@@ -39,11 +39,12 @@ const FILTER_OPTIONS = [
   },
 ];
 
-export default function TaskList() {
-  const { tasks, filter, setFilter, deleteTask } = useTasks(INITIAL_TASK);
+export default function TaskWidget() {
+  const { tasks, filter, setFilter, deleteTask, toggleTask } =
+    useTasks(INITIAL_TASK);
 
   return (
-    <>
+    <div>
       <ul className={styles.filter}>
         {FILTER_OPTIONS.map((option) => (
           <li key={option.id}>
@@ -58,15 +59,11 @@ export default function TaskList() {
           </li>
         ))}
       </ul>
-      <ul className={styles.tasks}>
-        {tasks.length > 0 &&
-          tasks.map((task) => (
-            <li key={task.id}>
-              <TaskCard task={task} onClick={deleteTask} />
-            </li>
-          ))}
-        {tasks.length === 0 && <h2>Список задач пока пуст</h2>}
-      </ul>
-    </>
+      <TaskList
+        tasks={tasks}
+        onDeleteTask={deleteTask}
+        onToggleTask={toggleTask}
+      />
+    </div>
   );
 }

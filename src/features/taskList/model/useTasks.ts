@@ -16,8 +16,23 @@ export function useTasks(initial: Task[]) {
   const [tasks, setTasks] = useState<Task[]>(initial);
   const [filter, setFilter] = useState<Filter>(TaskFilterType.ALL);
 
-  const deleteTask = useCallback((id: string) => {
+  const deleteTask = useCallback((id: Task["id"]) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
+  }, []);
+
+  const toggleTask = useCallback((id: Task["id"]) => {
+    setTasks((prev) =>
+      prev.map((task) => {
+        if (task.id !== id) {
+          return task;
+        } else {
+          return {
+            ...task,
+            completed: !task.completed,
+          };
+        }
+      })
+    );
   }, []);
 
   const filteredTasks = useMemo(() => {
@@ -37,5 +52,6 @@ export function useTasks(initial: Task[]) {
     filter: filter,
     setFilter,
     deleteTask,
+    toggleTask,
   };
 }

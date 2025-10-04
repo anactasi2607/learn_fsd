@@ -10,6 +10,15 @@
   color: #4a4a4a;
 }
 
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  user-select: none;
+  cursor: pointer;
+}
+
 .checkbox {
   appearance: none;
   -webkit-appearance: none;
@@ -20,6 +29,11 @@
   border-radius: 4px;
   outline: none;
   position: relative;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 10px rgba(115, 66, 127, 0.4);
+  }
 }
 
 .checkbox:checked {
