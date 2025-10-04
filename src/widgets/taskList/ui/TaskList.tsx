@@ -6,7 +6,7 @@ import { TaskFilterType, useTasks } from "../model/useTasks";
 
 import styles from "./TaskList.module.css";
 
-const initialTasks: Task[] = [
+const INITIAL_TASK: Task[] = [
   { id: "1", title: "Купить хлеб", completed: true },
   { id: "2", title: "Погладить кота", completed: true },
   {
@@ -21,48 +21,48 @@ const initialTasks: Task[] = [
   },
 ];
 
+const FILTER_OPTIONS = [
+  {
+    id: 1,
+    type: TaskFilterType.ALL,
+    title: "Все",
+  },
+  {
+    id: 2,
+    type: TaskFilterType.COMPLETED,
+    title: "Выполненные",
+  },
+  {
+    id: 3,
+    type: TaskFilterType.INCOMPLETED,
+    title: "Невыполненные",
+  },
+];
+
 export default function TaskList() {
-  const { tasks, filter, setFilter, deleteTask } = useTasks(initialTasks);
+  const { tasks, filter, setFilter, deleteTask } = useTasks(INITIAL_TASK);
 
   return (
     <>
       <ul className={styles.filter}>
-        <li>
-          <button
-            className={classNames(styles.filterButton, {
-              [styles.active]: filter === TaskFilterType.ALL,
-            })}
-            onClick={() => setFilter(TaskFilterType.ALL)}
-          >
-            Все
-          </button>
-        </li>
-        <li>
-          <button
-            className={classNames(styles.filterButton, {
-              [styles.active]: filter === TaskFilterType.COMPLETED,
-            })}
-            onClick={() => setFilter(TaskFilterType.COMPLETED)}
-          >
-            Выполненные
-          </button>
-        </li>
-        <li>
-          <button
-            className={classNames(styles.filterButton, {
-              [styles.active]: filter === TaskFilterType.INCOMPLETED,
-            })}
-            onClick={() => setFilter(TaskFilterType.INCOMPLETED)}
-          >
-            Невыполненные
-          </button>
-        </li>
+        {FILTER_OPTIONS.map((option) => (
+          <li key={option.id}>
+            <button
+              className={classNames(styles.filterButton, {
+                [styles.active]: filter === option.type,
+              })}
+              onClick={() => setFilter(option.type)}
+            >
+              {option.title}
+            </button>
+          </li>
+        ))}
       </ul>
       <ul className={styles.tasks}>
         {tasks.length > 0 &&
           tasks.map((task) => (
-            <li>
-              <TaskCard key={task.id} task={task} onClick={deleteTask} />
+            <li key={task.id}>
+              <TaskCard task={task} onClick={deleteTask} />
             </li>
           ))}
         {tasks.length === 0 && <h2>Список задач пока пуст</h2>}
