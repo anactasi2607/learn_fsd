@@ -1,4 +1,3 @@
-import React from "react";
 import { Task } from "entities/task/model/types";
 import TaskCard from "entities/task/ui/TaskCard";
 
@@ -18,8 +17,8 @@ export default function TaskList({ tasks, onDeleteTask, onToggleTask }: Props) {
           <li key={task.id}>
             <TaskCard
               task={task}
-              onDelete={() => onDeleteTask(task.id)}
-              onToggle={() => onToggleTask(task.id)}
+              onDelete={onDeleteTask}
+              onToggle={onToggleTask}
             />
           </li>
         ))}

@@ -5,11 +5,11 @@ import styles from "./TaskCard.module.css";
 
 type Props = {
   task: Task;
-  onDelete: () => void;
-  onToggle: () => void;
+  onDelete: (id: Task["id"]) => void;
+  onToggle: (id: Task["id"]) => void;
 };
 
-export default function TaskCard({ task, onDelete, onToggle }: Props) {
+function TaskCardComponent({ task, onDelete, onToggle }: Props) {
   return (
     <div className={styles.root}>
       <label className={styles.wrapper}>
@@ -17,13 +17,15 @@ export default function TaskCard({ task, onDelete, onToggle }: Props) {
           className={styles.checkbox}
           type="checkbox"
           checked={task.completed}
-          onChange={onToggle}
+          onChange={() => onToggle(task.id)}
         />
         <span>{task.title}</span>
       </label>
-      <button className={styles.button} onClick={onDelete}>
+      <button className={styles.button} onClick={() => onDelete(task.id)}>
         удалить
       </button>
     </div>
   );
 }
+
+export default React.memo(TaskCardComponent);
