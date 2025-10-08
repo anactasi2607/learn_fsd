@@ -1,5 +1,6 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Task } from "entities/task/model/types";
+import { useGetTasksQuery } from "../api/tasksApi";
 
 export enum TaskFilterType {
   ALL = "all",
@@ -12,9 +13,15 @@ type Filter =
   | TaskFilterType.COMPLETED
   | TaskFilterType.INCOMPLETED;
 
-export function useTasks(initial: Task[]) {
-  const [tasks, setTasks] = useState<Task[]>(initial);
+export function useTasks() {
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState<Filter>(TaskFilterType.ALL);
+  const {
+    data: tasksFromApi = [],
+    isSuccess,
+    isLoading,
+    isError,
+  } = useGetTasksQuery();
 
   const deleteTask = useCallback((id: Task["id"]) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
@@ -47,9 +54,18 @@ export function useTasks(initial: Task[]) {
     }
   }, [tasks, filter]);
 
+  useEffect(() => {
+    if (isSuccess && tasks.length === 0) {
+      setTasks(tasksFromApi);
+    }
+  }, [isSuccess, tasksFromApi, tasks]);
+
   return {
     tasks: filteredTasks,
     filter: filter,
+    isLoading,
+    isSuccess,
+    isError,
     setFilter,
     deleteTask,
     toggleTask,
