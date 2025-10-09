@@ -2,24 +2,8 @@ import classNames from "classnames";
 import React from "react";
 import { TaskFilterType, useTasks } from "features/taskList/model/useTasks";
 import TaskList from "features/taskList/ui/TaskList";
-import { Task } from "entities/task/model/types";
 
 import styles from "./TaskWidget.module.css";
-
-const INITIAL_TASK: Task[] = [
-  { id: "1", title: "Купить хлеб", completed: true },
-  { id: "2", title: "Погладить кота", completed: true },
-  {
-    id: "3",
-    title: "Сделать первое задание на курсе middle frontend",
-    completed: false,
-  },
-  {
-    id: "4",
-    title: "Сделать второе задание на курсе middle frontend",
-    completed: false,
-  },
-];
 
 const FILTER_OPTIONS = [
   {
@@ -40,11 +24,19 @@ const FILTER_OPTIONS = [
 ];
 
 export default function TaskWidget() {
-  const { tasks, filter, setFilter, deleteTask, toggleTask } =
-    useTasks(INITIAL_TASK);
+  const {
+    tasks,
+    filter,
+    isLoading,
+    isSuccess,
+    isError,
+    setFilter,
+    deleteTask,
+    toggleTask,
+  } = useTasks();
 
   return (
-    <div>
+    <div className={styles.root}>
       <ul className={styles.filter}>
         {FILTER_OPTIONS.map((option) => (
           <li key={option.id}>
@@ -59,11 +51,16 @@ export default function TaskWidget() {
           </li>
         ))}
       </ul>
-      <TaskList
-        tasks={tasks}
-        onDeleteTask={deleteTask}
-        onToggleTask={toggleTask}
-      />
+      {isLoading && <h2>Список задач загружается...</h2>}
+      {isSuccess && tasks.length > 0 && (
+        <TaskList
+          tasks={tasks}
+          onDeleteTask={deleteTask}
+          onToggleTask={toggleTask}
+        />
+      )}
+      {isSuccess && tasks.length === 0 && <h2>Список задач пока пуст</h2>}
+      {isError && <h2>Произошла ошибка при загрузке</h2>}
     </div>
   );
 }

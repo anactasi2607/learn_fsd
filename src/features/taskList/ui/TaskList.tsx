@@ -12,7 +12,7 @@ type Props = {
 export default function TaskList({ tasks, onDeleteTask, onToggleTask }: Props) {
   return (
     <ul className={styles.tasks}>
-      {tasks.length > 0 &&
+      {
         tasks.map((task) => (
           <li key={task.id}>
             <TaskCard
@@ -21,8 +21,8 @@ export default function TaskList({ tasks, onDeleteTask, onToggleTask }: Props) {
               onToggle={onToggleTask}
             />
           </li>
-        ))}
-      {tasks.length === 0 && <h2>Список задач пока пуст</h2>}
+        ))
+      }
     </ul>
   );
 }
