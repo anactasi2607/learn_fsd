@@ -19,7 +19,7 @@ function TaskCardComponent({ task, onDelete, onToggle }: Props) {
           checked={task.completed}
           onChange={() => onToggle(task.id)}
         />
-        <span>{task.title}</span>
+        <span>{task.todo}</span>
       </label>
       <button className={styles.button} onClick={() => onDelete(task.id)}>
         удалить

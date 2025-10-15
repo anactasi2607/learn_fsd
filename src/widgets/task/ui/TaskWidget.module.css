@@ -1,3 +1,7 @@
+.root {
+  padding: 16px 0;
+}
+
 .filter {
   display: flex;
   gap: 8px;
